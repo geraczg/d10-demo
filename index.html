@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b0f14" />
+    <meta name="description" content="d10, ciencia para avanzar en un solo lugar." />
+    <title>d10 | Ciencia en movimiento</title>
+    <style>html { background: #0b0f14; } body { margin: 0; }</style>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script>
+      /* Respaldo para visores locales que bloquean hojas CSS enlazadas. */
+      if (location.hostname === "127.0.0.1" || location.hostname === "localhost") {
+        fetch("styles.css")
+          .then((response) => response.text())
+          .then((css) => {
+            const fallback = document.createElement("style");
+            fallback.dataset.localFallback = "true";
+            fallback.textContent = css;
+            document.head.append(fallback);
+          });
+      }
+    </script>
+  </head>
+  <body>
+    <main class="intro" id="intro" tabindex="-1">
+      <canvas class="space" id="space" aria-hidden="true"></canvas>
+
+      <header class="intro__header">
+        <p class="intro__promise" id="introPromise">
+          Frase
+        </p>
+        <button class="skip-button" id="skipIntro" type="button">Saltar intro</button>
+      </header>
+
+      <section class="universe" aria-labelledby="brandTitle">
+        <h1 class="sr-only" id="brandTitle">d10, ciencia en movimiento</h1>
+        <div class="brand-field" id="brandField" aria-hidden="true"></div>
+
+        <div class="core" id="core">
+          <div class="core__halo"></div>
+          <div class="core__mark" aria-hidden="true">
+            <span>d10</span>
+            <svg viewBox="0 0 72 56" role="img" aria-label="Símbolo orbital de d10">
+              <ellipse cx="35" cy="28" rx="28" ry="11" transform="rotate(42 35 28)" />
+              <circle cx="50" cy="15" r="4" />
+              <circle cx="20" cy="38" r="3" />
+            </svg>
+          </div>
+          <p class="core__tagline">Ciencia en movimiento</p>
+        </div>
+
+        <button class="primary-action" type="button" id="exploreAction">
+          <span id="exploreLabel">Entrar</span>
+          <span aria-hidden="true">＋</span>
+        </button>
+
+      </section>
+
+      <p class="intro__status" id="motionStatus" aria-live="polite"></p>
+    </main>
+
+    <section class="site-shell" id="proximamente" aria-label="Inicio del catálogo d10">
+      <div class="announcement" aria-label="Información comercial">
+        <div class="announcement__track">
+          <div class="announcement__group">
+            <span><strong>Frase 1</strong></span>
+            <i aria-hidden="true"></i>
+            <span><strong>Frase 2</strong></span>
+            <i aria-hidden="true"></i>
+            <span><strong>Frase 3</strong></span>
+            <i aria-hidden="true"></i>
+            <span><strong>Frase 4</strong></span>
+            <i aria-hidden="true"></i>
+            <span><strong>Frase 5</strong></span>
+            <i aria-hidden="true"></i>
+          </div>
+          <div class="announcement__group" aria-hidden="true">
+            <span><strong>Frase 1</strong></span>
+            <i></i>
+            <span><strong>Frase 2</strong></span>
+            <i></i>
+            <span><strong>Frase 3</strong></span>
+            <i></i>
+            <span><strong>Frase 4</strong></span>
+            <i></i>
+            <span><strong>Frase 5</strong></span>
+            <i></i>
+          </div>
+        </div>
+      </div>
+
+      <header class="catalog-header">
+        <a class="catalog-logo" href="#marcas" aria-label="d10, inicio del catálogo">
+          <span>d10</span>
+          <small>Scientific</small>
+        </a>
+
+        <form class="catalog-search" id="catalogSearch" role="search">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="m16.5 16.5 4 4"></path>
+          </svg>
+          <label class="sr-only" for="catalogQuery">Buscar en el catálogo</label>
+          <input id="catalogQuery" name="q" type="search" placeholder="Buscar por producto, marca o número de catálogo..." autocomplete="off" />
+          <button class="sr-only" type="submit">Buscar</button>
+        </form>
+
+        <div class="catalog-tools">
+          <button class="language-button" id="languageButton" type="button" aria-label="Idioma seleccionado: español">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"></path></svg>
+            <span>ES</span>
+          </button>
+
+          <nav class="utility-nav" aria-label="Servicios">
+            <a href="#pedidos">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M8 3v4M16 3v4M4 10h16"></path></svg>
+              <span>Pedidos</span>
+            </a>
+            <a href="#pedido-rapido">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h9M5 10h9M5 15h6M18 4v13M14.5 13.5 18 17l3.5-3.5"></path></svg>
+              <span>Pedido rápido</span>
+            </a>
+          </nav>
+        </div>
+        <p class="search-feedback" id="searchFeedback" aria-live="polite"></p>
+      </header>
+
+      <nav class="category-bar" aria-label="Categorías del catálogo">
+        <a href="#categoria-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.6 2.8 8 7 10 4.2-2 7-5.4 7-10V6l-7-3Z"></path><circle cx="12" cy="11" r="2"></circle></svg><span>Categoría 1</span></a>
+        <a href="#categoria-2"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="2"></circle><path d="M12 4v3M20 12h-3M12 20v-3M4 12h3"></path></svg><span>Categoría 2</span></a>
+        <a href="#categoria-3"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 21-2-7-7-2 7-2 2-7 2 7 7 2-7 2-2 7Z"></path></svg><span>Categoría 3</span></a>
+        <a href="#categoria-4"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 15 9-9 4 4-9 9H5v-4Z"></path><path d="m12 8 4 4"></path></svg><span>Categoría 4</span></a>
+        <a href="#categoria-5"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="12" r="4"></circle><circle cx="15" cy="12" r="4"></circle></svg><span>Categoría 5</span></a>
+        <a href="#categoria-6"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c2.8 4 4 6.4 4 9a4 4 0 0 1-8 0c0-2.6 1.2-5 4-9Z"></path></svg><span>Categoría 6</span></a>
+        <a href="#categoria-7"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20v-8M12 13c-4 0-6-2-6-6 4 0 6 2 6 6ZM12 16c4 0 6-2 6-6-4 0-6 2-6 6Z"></path></svg><span>Categoría 7</span></a>
+        <a href="#categoria-8"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h6v5H4zM14 7h6v5h-6zM4 16h6M14 16h6"></path></svg><span>Categoría 8</span></a>
+      </nav>
+    </section>
+
+    <section class="brands-section" id="marcas" aria-labelledby="brandsTitle">
+      <div class="brands-section__heading">
+        <p><span aria-hidden="true"></span><i id="brandsEyebrow">Por marca</i></p>
+        <h2 id="brandsTitle">Las marcas que representamos</h2>
+        <div class="brands-section__intro">
+          <p id="brandsDescription">Explora cada marca y descubre los productos disponibles en su catálogo.</p>
+          <span id="brandsTotal">10 marcas · 1,167 productos</span>
+        </div>
+      </div>
+
+      <div class="brands-grid">
+        <a class="brand-card" href="#marca-1" aria-label="Marca 1, 128 productos"><strong>Marca <b>1</b></strong><span>128 productos</span></a>
+        <a class="brand-card" href="#marca-2" aria-label="Marca 2, 94 productos"><strong>Marca <b>2</b></strong><span>94 productos</span></a>
+        <a class="brand-card" href="#marca-3" aria-label="Marca 3, 156 productos"><strong>Marca <b>3</b></strong><span>156 productos</span></a>
+        <a class="brand-card" href="#marca-4" aria-label="Marca 4, 73 productos"><strong>Marca <b>4</b></strong><span>73 productos</span></a>
+        <a class="brand-card" href="#marca-5" aria-label="Marca 5, 210 productos"><strong>Marca <b>5</b></strong><span>210 productos</span></a>
+        <a class="brand-card" href="#marca-6" aria-label="Marca 6, 86 productos"><strong>Marca <b>6</b></strong><span>86 productos</span></a>
+        <a class="brand-card" href="#marca-7" aria-label="Marca 7, 119 productos"><strong>Marca <b>7</b></strong><span>119 productos</span></a>
+        <a class="brand-card" href="#marca-8" aria-label="Marca 8, 64 productos"><strong>Marca <b>8</b></strong><span>64 productos</span></a>
+        <a class="brand-card" href="#marca-9" aria-label="Marca 9, 142 productos"><strong>Marca <b>9</b></strong><span>142 productos</span></a>
+        <a class="brand-card" href="#marca-10" aria-label="Marca 10, 95 productos"><strong>Marca <b>10</b></strong><span>95 productos</span></a>
+      </div>
+    </section>
+
+    <section class="products-section" id="marca-1" aria-labelledby="productsTitle" hidden>
+      <div class="products-section__topbar">
+        <button class="back-to-brands" id="backToBrands" type="button">
+          <span aria-hidden="true">←</span>
+          <span id="backToBrandsLabel">Volver a marcas</span>
+        </button>
+        <div>
+          <p id="productsEyebrow">Catálogo de marca</p>
+          <h2 id="productsTitle">Marca 1</h2>
+        </div>
+      </div>
+
+      <div class="products-layout">
+        <aside class="product-filters" aria-labelledby="filtersTitle">
+          <form id="productFilters">
+            <h3 id="filtersTitle">Filtros</h3>
+
+            <fieldset>
+              <legend id="priceLegend">Precio</legend>
+              <div class="price-filter">
+                <label><span class="sr-only" id="minimumPriceLabel">Precio mínimo</span><input id="minimumPrice" type="number" min="0" placeholder="Mín." /></label>
+                <label><span class="sr-only" id="maximumPriceLabel">Precio máximo</span><input id="maximumPrice" type="number" min="0" placeholder="Máx." /></label>
+                <button id="applyFiltersLabel" type="submit">Aplicar</button>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend id="brandFilterLegend">Marca</legend>
+              <label class="filter-option"><input type="checkbox" checked disabled /><span id="brandFilterName">Marca 1</span><small>9</small></label>
+            </fieldset>
+
+            <fieldset>
+              <legend id="categoryFilterLegend">Categoría</legend>
+              <label class="filter-option"><input name="category" type="checkbox" value="1" /><span>Categoría 1</span><small>3</small></label>
+              <label class="filter-option"><input name="category" type="checkbox" value="2" /><span>Categoría 2</span><small>2</small></label>
+              <label class="filter-option"><input name="category" type="checkbox" value="3" /><span>Categoría 3</span><small>2</small></label>
+              <label class="filter-option"><input name="category" type="checkbox" value="4" /><span>Categoría 4</span><small>2</small></label>
+            </fieldset>
+
+            <fieldset>
+              <legend id="availabilityLegend">Disponibilidad</legend>
+              <label class="filter-option"><input name="availability" type="checkbox" value="available" /><span id="availableLabel">Disponible</span><small>6</small></label>
+              <label class="filter-option"><input name="availability" type="checkbox" value="backorder" /><span id="backorderLabel">Sobre pedido</span><small>3</small></label>
+            </fieldset>
+          </form>
+        </aside>
+
+        <div class="products-results">
+          <div class="products-toolbar">
+            <p><strong id="visibleProductCount">9</strong> <span id="productsCountLabel">productos</span></p>
+            <label for="productSort"><span id="sortByLabel">Ordenar por</span>
+              <select id="productSort">
+                <option id="sortFeatured" value="featured">Destacados</option>
+                <option id="sortPriceLow" value="price-asc">Precio: menor a mayor</option>
+                <option id="sortPriceHigh" value="price-desc">Precio: mayor a menor</option>
+                <option id="sortName" value="name">Nombre</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="products-grid" id="productsGrid">
+            <article class="product-card is-selectable" data-name="1" data-price="780" data-category="1" data-availability="available" data-featured="1" role="button" tabindex="0" aria-label="Abrir Producto 1">
+              <div class="product-card__meta"><span>Marca 1</span><span>Categoría 1</span></div><h3>Producto 1</h3><p class="product-card__code">P-001</p><div class="product-card__footer"><strong>$780.00</strong><span class="stock-status is-available">Disponible</span></div>
+            </article>
+            <article class="product-card" data-name="2" data-price="450" data-category="2" data-availability="available" data-featured="2">
+              <div class="product-card__meta"><span>Marca 1</span><span>Categoría 2</span></div><h3>Producto 2</h3><p class="product-card__code">P-002</p><div class="product-card__footer"><strong>$450.00</strong><span class="stock-status is-available">Disponible</span></div>
+            </article>
+            <article class="product-card" data-name="3" data-price="760" data-category="1" data-availability="backorder" data-featured="3">
+              <div class="product-card__meta"><span>Marca 1</span><span>Categoría 1</span></div><h3>Producto 3</h3><p class="product-card__code">P-003</p><div class="product-card__footer"><strong>$760.00</strong><span class="stock-status is-backorder">Sobre pedido</span></div>
+            </article>
+            <article class="product-card" data-name="4" data-price="920" data-category="3" data-availability="available" data-featured="4">
+              <div class="product-card__meta"><span>Marca 1</span><span>Categoría 3</span></div><h3>Producto 4</h3><p class="product-card__code">P-004</p><div class="product-card__footer"><strong>$920.00</strong><span class="stock-status is-available">Disponible</span></div>
+            </article>
+            <article class="product-card" data-name="5" data-price="1180" data-category="4" data-availability="backorder" data-featured="5">
+              <div class="product-card__meta"><span>Marca 1</span><span>Categoría 4</span></div><h3>Producto 5</h3><p class="product-card__code">P-005</p><div class="product-card__footer"><strong>$1,180.00</strong><span class="stock-status is-backorder">Sobre pedido</span></div>
+            </article>
+            <article class="product-card" data-name="6" data-price="635" data-category="2" data-availability="available" data-featured="6">
+              <div class="product-card__meta"><span>Marca 1</span><span>Categoría 2</span></div><h3>Producto 6</h3><p class="product-card__code">P-006</p><div class="product-card__footer"><strong>$635.00</strong><span class="stock-status is-available">Disponible</span></div>
+            </article>
+            <article class="product-card" data-name="7" data-price="540" data-category="1" data-availability="available" data-featured="7">
+              <div class="product-card__meta"><span>Marca 1</span><span>Categoría 1</span></div><h3>Producto 7</h3><p class="product-card__code">P-007</p><div class="product-card__footer"><strong>$540.00</strong><span class="stock-status is-available">Disponible</span></div>
+            </article>
+            <article class="product-card" data-name="8" data-price="1320" data-category="3" data-availability="backorder" data-featured="8">
+              <div class="product-card__meta"><span>Marca 1</span><span>Categoría 3</span></div><h3>Producto 8</h3><p class="product-card__code">P-008</p><div class="product-card__footer"><strong>$1,320.00</strong><span class="stock-status is-backorder">Sobre pedido</span></div>
+            </article>
+            <article class="product-card" data-name="9" data-price="875" data-category="4" data-availability="available" data-featured="9">
+              <div class="product-card__meta"><span>Marca 1</span><span>Categoría 4</span></div><h3>Producto 9</h3><p class="product-card__code">P-009</p><div class="product-card__footer"><strong>$875.00</strong><span class="stock-status is-available">Disponible</span></div>
+            </article>
+          </div>
+          <p class="empty-products" id="emptyProducts" hidden>No hay productos que coincidan con los filtros.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="product-detail" id="producto-1" aria-labelledby="productDetailTitle" hidden>
+      <div class="product-detail__toolbar">
+        <button class="back-to-products" id="backToProducts" type="button"><span aria-hidden="true">←</span><span id="backToProductsLabel">Volver a productos</span></button>
+      </div>
+      <div class="product-detail__layout">
+        <div class="product-detail__visual" aria-label="Espacio reservado para la imagen de Producto 1">
+          <span>P-001</span>
+          <strong>Producto 1</strong>
+          <small id="imagePendingLabel">Imagen pendiente</small>
+        </div>
+        <div class="product-detail__content">
+          <div class="product-detail__tags"><span>Marca 1</span><span>Categoría 1</span></div>
+          <p class="product-detail__availability" id="detailAvailability">Disponible</p>
+          <h2 id="productDetailTitle">Producto 1</h2>
+          <p class="product-detail__sku">SKU: P-001 · <span id="detailBrandLabel">Marca</span>: Marca 1</p>
+          <p class="product-detail__price">$780.00</p>
+          <p class="product-detail__tax" id="taxLabel">Precio en MXN · IVA no incluido</p>
+          <p class="product-detail__description" id="productDescription">Descripción, Información técnica.</p>
+          <dl class="product-specs">
+            <div><dt id="specCategoryLabel">Categoría</dt><dd>Categoría 1</dd></div>
+            <div><dt id="specAvailabilityLabel">Disponibilidad</dt><dd id="specAvailabilityValue">Disponible</dd></div>
+          </dl>
+          <a class="quote-button" id="quoteButton" href="https://wa.me/5215550000000?text=Hola%2C%20quiero%20solicitar%20una%20cotizaci%C3%B3n%20de%20Producto%201" target="_blank" rel="noopener noreferrer">
+            <span id="quoteButtonLabel">Solicitar cotización por WhatsApp</span><span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <script src="script.js"></script>
+  </body>
+</html>
