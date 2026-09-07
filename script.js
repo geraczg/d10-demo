@@ -3,7 +3,6 @@ const context = canvas.getContext("2d");
 const intro = document.querySelector("#intro");
 const brandField = document.querySelector("#brandField");
 const core = document.querySelector("#core");
-const skipButton = document.querySelector("#skipIntro");
 const motionStatus = document.querySelector("#motionStatus");
 const catalogSearch = document.querySelector("#catalogSearch");
 const catalogQuery = document.querySelector("#catalogQuery");
@@ -152,7 +151,6 @@ function translateInterface(language) {
   document.title = text.pageTitle;
   introPromise.innerHTML = text.promise;
   exploreLabel.textContent = text.explore;
-  skipButton.textContent = motionPaused ? text.resume : text.skip;
 
   document.querySelectorAll(".announcement__group").forEach((group) => {
     group.querySelectorAll(":scope > span").forEach((item, index) => {
@@ -373,8 +371,6 @@ function render(time = 0) {
 function setMotionPaused(paused, message) {
   motionPaused = paused;
   intro.classList.toggle("is-skipped", paused);
-  skipButton.textContent = paused ? copy[currentLanguage].resume : copy[currentLanguage].skip;
-  skipButton.setAttribute("aria-pressed", String(paused));
   motionStatus.textContent = message;
 }
 
@@ -476,11 +472,6 @@ window.addEventListener("keydown", (event) => {
 });
 
 exploreAction.addEventListener("click", animateZoomToCatalog);
-
-skipButton.addEventListener("click", () => {
-  const nextPaused = !motionPaused;
-  setMotionPaused(nextPaused, nextPaused ? copy[currentLanguage].paused : copy[currentLanguage].resumed);
-});
 
 prefersReducedMotion.addEventListener("change", (event) => {
   setMotionPaused(event.matches, event.matches ? copy[currentLanguage].paused : copy[currentLanguage].resumed);
