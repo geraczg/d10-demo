@@ -491,17 +491,32 @@ languageButton?.addEventListener("click", () => {
   translateInterface(currentLanguage === "es" ? "en" : "es");
 });
 
-function showBrandOne() {
-  brandsSection.hidden = true;
-  productsSection.hidden = false;
-  productsSection.scrollIntoView({ behavior: prefersReducedMotion.matches ? "auto" : "smooth", block: "start" });
+function renderCatalogRoute(route, instant = false) {
+  const section = route === "#producto-1" ? productDetail
+    : route === "#marca-1" ? productsSection : brandsSection;
+  brandsSection.hidden = section !== brandsSection;
+  productsSection.hidden = section !== productsSection;
+  productDetail.hidden = section !== productDetail;
+  transitionStarted = true;
+  intro.hidden = true;
+  cancelAnimationFrame(animationFrame);
+  section.scrollIntoView({ behavior: instant || prefersReducedMotion.matches ? "auto" : "smooth", block: "start" });
 }
 
-function showBrands() {
-  productDetail.hidden = true;
-  productsSection.hidden = true;
-  brandsSection.hidden = false;
-  brandsSection.scrollIntoView({ behavior: prefersReducedMotion.matches ? "auto" : "smooth", block: "start" });
+function navigateCatalog(route) {
+  if (!["#marcas", "#marca-1", "#producto-1"].includes(location.hash)) {
+    history.replaceState(null, "", "#marcas");
+  }
+  if (location.hash !== route) history.pushState(null, "", route);
+  renderCatalogRoute(route);
+}
+
+function showBrandOne() { navigateCatalog("#marca-1"); }
+function showBrands() { navigateCatalog("#marcas"); }
+
+window.addEventListener("popstate", () => renderCatalogRoute(location.hash, true));
+if (["#marcas", "#marca-1", "#producto-1"].includes(location.hash)) {
+  renderCatalogRoute(location.hash, true);
 }
 
 document.querySelector('.brand-card[href="#marca-1"]')?.addEventListener("click", (event) => {
@@ -521,17 +536,8 @@ document.querySelector(".catalog-logo")?.addEventListener("click", (event) => {
   showBrands();
 });
 
-function showProductOne() {
-  productsSection.hidden = true;
-  productDetail.hidden = false;
-  productDetail.scrollIntoView({ behavior: prefersReducedMotion.matches ? "auto" : "smooth", block: "start" });
-}
-
-function showProducts() {
-  productDetail.hidden = true;
-  productsSection.hidden = false;
-  productsSection.scrollIntoView({ behavior: prefersReducedMotion.matches ? "auto" : "smooth", block: "start" });
-}
+function showProductOne() { navigateCatalog("#producto-1"); }
+function showProducts() { navigateCatalog("#marca-1"); }
 
 productOneCard?.addEventListener("click", showProductOne);
 productOneCard?.addEventListener("keydown", (event) => {
